@@ -2,14 +2,14 @@
 
 Acesta este un proiect Full-Stack construit folosind **ASP.NET Core** pentru backend și **Angular** pentru frontend, respectând arhitectura **Vertical Slice**.
 
-## 📋 Cerințe Prealabile
+## Cerințe Prealabile
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
 - [Node.js & npm](https://nodejs.org/)
 - [SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
 
 ---
 
-## 🛠️ Instalare și Pornire
+## Instalare și Pornire
 
 ### 1. Restaurarea Bazei de Date
 Există două modalități de a pregăti baza de date:
@@ -58,12 +58,12 @@ Aplicația va fi disponibilă în browser la `http://localhost:4200`.
 
 ---
 
-## 🧪 Testare
+## Testare
 Proiectul include teste automate:
 - **Backend**: `cd backend/QuestApp.Tests && dotnet test`
 - **Frontend**: `cd frontend && npm test`
 
-## 🏗️ Arhitectură
+## Arhitectură
 - **Vertical Slice Architecture**: Fiecare funcționalitate (Auth, Cart, Checkout) este izolată.
 - **ADO.NET**: Nu s-a folosit ORM (EF Core), respectând cerința de acces direct la date.
 - **Signals**: Starea coșului de cumpărături este gestionată reactiv prin Angular Signals.
