@@ -1,0 +1,88 @@
+<div class="container py-5">
+  <header class="mb-5">
+    <h1 class="fw-bold"><i class="bi bi-cart3 me-2 text-info"></i> Your Shopping <span class="text-info">Cart</span></h1>
+    <p class="text-secondary">Review your selected items before proceeding to checkout.</p>
+  </header>
+
+  <div *ngIf="isLoading" class="d-flex flex-column align-items-center py-5">
+    <div class="spinner-border text-info mb-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-secondary">Syncing with server...</p>
+  </div>
+
+  
+  <div *ngIf="!isLoading && items.length === 0" class="text-center py-5">
+    <div class="mb-4">
+      <i class="bi bi-cart-x display-1 text-secondary opacity-25"></i>
+    </div>
+    <h2 class="fw-bold">Your cart is currently empty</h2>
+    <p class="text-secondary mb-4">Add some amazing products to your quest to see them here.</p>
+    <a routerLink="/products" class="btn btn-info text-white px-5 rounded-pill fw-bold">Start Shopping</a>
+  </div>
+
+  
+  <div *ngIf="!isLoading && items.length > 0" class="row g-4">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+        <div class="list-group list-group-flush bg-transparent">
+          <div *ngFor="let item of items" class="list-group-item bg-transparent border-secondary border-opacity-10 p-4">
+            <div class="row align-items-center g-3">
+              <div class="col-auto">
+                <div class="bg-dark rounded-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                  <i class="bi bi-box text-secondary opacity-50 fs-2"></i>
+                </div>
+              </div>
+              <div class="col">
+                <h5 class="fw-bold mb-1 text-white">{{ item.productName }}</h5>
+                <p class="text-secondary small mb-0">Qty: <span class="text-info fw-bold">{{ item.quantity }}</span> × ${{ item.price.toFixed(2) }}</p>
+              </div>
+              <div class="col-auto text-end">
+                <div class="fw-bold text-white fs-5 mb-2">${{ (item.price * item.quantity).toFixed(2) }}</div>
+                <button class="btn btn-link text-danger p-0 text-decoration-none small d-flex align-items-center gap-1" (click)="removeItem(item.productId)">
+                  <i class="bi bi-trash3"></i> Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <a routerLink="/products" class="btn btn-link text-info text-decoration-none d-flex align-items-center gap-2">
+        <i class="bi bi-arrow-left"></i> Continue Shopping
+      </a>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top" style="top: 100px;">
+        <h4 class="fw-bold mb-4">Order Summary</h4>
+        
+        <div class="d-flex justify-content-between mb-3 text-secondary">
+          <span>Subtotal</span>
+          <span>${{ total.toFixed(2) }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3 text-secondary">
+          <span>Shipping</span>
+          <span class="text-success">Free</span>
+        </div>
+        
+        <hr class="border-secondary border-opacity-25 my-4">
+        
+        <div class="d-flex justify-content-between mb-4">
+            <span class="h5 fw-bold mb-0">Total</span>
+            <span class="h4 fw-bold text-info mb-0">${{ total.toFixed(2) }}</span>
+        </div>
+        
+        <a routerLink="/checkout" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+          Proceed to Checkout <i class="bi bi-arrow-right"></i>
+        </a>
+        
+        <div class="mt-4 p-3 bg-info bg-opacity-10 border border-info border-opacity-25 rounded-3 text-center">
+            <p class="small text-info mb-0">
+                <i class="bi bi-shield-check me-1"></i> Secure Transaction Guarantee
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

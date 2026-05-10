@@ -1,0 +1,128 @@
+<div class="auth-wrapper d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-5 col-xl-4">
+        <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 auth-card">
+          <div class="text-center mb-4">
+            <div class="bg-info bg-opacity-10 rounded-pill d-inline-flex p-3 mb-3">
+              <i class="bi bi-person-plus-fill fs-1 text-info"></i>
+            </div>
+            <h2 class="fw-bold text-white">Create Account</h2>
+            <p class="text-secondary small">Join the QuestApp community today</p>
+          </div>
+
+          <div *ngIf="errorMessage" class="alert alert-danger border-0 small rounded-3 mb-4">
+            <i class="bi bi-exclamation-circle me-2"></i> {{ errorMessage }}
+          </div>
+
+          <div *ngIf="successMessage" class="alert alert-success border-0 small rounded-3 mb-4">
+            <i class="bi bi-check-circle me-2"></i> {{ successMessage }}
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="d-grid gap-3">
+            <div class="form-group">
+              <label for="username" class="form-label text-secondary small fw-bold text-uppercase opacity-75">Username</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary">
+                  <i class="bi bi-person"></i>
+                </span>
+                <input 
+                  type="text" 
+                  id="username" 
+                  formControlName="username" 
+                  class="form-control" 
+                  placeholder="johndoe"
+                  [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+                />
+                <div class="invalid-feedback">
+                  Username is required (min 3 chars).
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label text-secondary small fw-bold text-uppercase opacity-75">Email</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary">
+                  <i class="bi bi-envelope"></i>
+                </span>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email" 
+                  class="form-control" 
+                  placeholder="name@example.com"
+                  [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label text-secondary small fw-bold text-uppercase opacity-75">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary">
+                  <i class="bi bi-shield-lock"></i>
+                </span>
+                <input 
+                  [type]="showPassword ? 'text' : 'password'" 
+                  id="password" 
+                  formControlName="password" 
+                  class="form-control" 
+                  placeholder="••••••••"
+                  [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                />
+                <button class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary" 
+                        type="button" (click)="togglePassword()">
+                  <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                </button>
+                <div class="invalid-feedback">
+                  Password must be at least 6 characters.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label text-secondary small fw-bold text-uppercase opacity-75">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary">
+                  <i class="bi bi-shield-check"></i>
+                </span>
+                <input 
+                  [type]="showConfirmPassword ? 'text' : 'password'" 
+                  id="confirmPassword" 
+                  formControlName="confirmPassword" 
+                  class="form-control" 
+                  placeholder="••••••••"
+                  [class.is-invalid]="(registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid) || (registerForm.touched && registerForm.errors?.['passwordMismatch'])"
+                />
+                <button class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary" 
+                        type="button" (click)="toggleConfirmPassword()">
+                  <i class="bi" [class.bi-eye]="!showConfirmPassword" [class.bi-eye-slash]="showConfirmPassword"></i>
+                </button>
+                <div class="invalid-feedback">
+                  <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password.</span>
+                  <span *ngIf="registerForm.errors?.['passwordMismatch']">Passwords do not match.</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold py-3 mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" 
+                    [disabled]="registerForm.invalid || isLoading">
+              <span *ngIf="!isLoading">Sign Up</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+            </button>
+          </form>
+
+          <div class="text-center mt-5 pt-3 border-top border-secondary border-opacity-10">
+            <p class="text-secondary small mb-0">Already have an account? 
+              <a routerLink="/login" class="text-info text-decoration-none fw-bold">Log in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

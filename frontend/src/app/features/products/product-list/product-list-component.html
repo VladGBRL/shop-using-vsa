@@ -1,0 +1,52 @@
+<div class="container py-5">
+  <header class="mb-5 text-center">
+    <h1 class="display-4 fw-bold">Explore Our <span class="text-info">Collection</span></h1>
+    <p class="text-secondary lead">Find the perfect products for your next adventure.</p>
+  </header>
+
+  <div *ngIf="isLoading()" class="d-flex flex-column align-items-center py-5">
+    <div class="spinner-border text-info mb-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-secondary">Loading premium products...</p>
+  </div>
+
+  <div *ngIf="!isLoading()" class="row g-4">
+    <div *ngFor="let product of products()" class="col-12 col-md-6 col-lg-4 col-xl-3">
+      <div class="card h-100 product-card shadow-sm border-0 overflow-hidden">
+        <div class="card-img-top bg-dark d-flex align-items-center justify-content-center position-relative" style="height: 220px;">
+          <i class="bi bi-box-seam display-2 text-info opacity-25"></i>
+          <span class="position-absolute top-0 start-0 m-3 badge bg-dark bg-opacity-75 text-info border border-info border-opacity-25 rounded-pill px-3">
+            {{ product.categoryName }}
+          </span>
+        </div>
+        <div class="card-body d-flex flex-column p-4">
+          <h5 class="card-title fw-bold mb-1 text-white">{{ product.name }}</h5>
+          <p class="card-text text-secondary small mb-3 flex-grow-1">{{ product.description }}</p>
+          
+          <div class="mb-3">
+            <span *ngIf="product.stock > 0" class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
+                <i class="bi bi-check2-circle me-1"></i> {{ product.stock }} in stock
+            </span>
+            <span *ngIf="product.stock <= 0" class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">
+                <i class="bi bi-x-circle me-1"></i> Out of stock
+            </span>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-secondary border-opacity-10">
+            <div class="d-flex flex-column">
+                <span class="text-secondary x-small text-uppercase fw-bold opacity-50" style="font-size: 0.65rem; letter-spacing: 1px;">Price</span>
+                <span class="fs-4 fw-bold text-info">${{ product.price.toFixed(2) }}</span>
+            </div>
+            <button (click)="addToCart(product)" 
+                    class="btn btn-primary rounded-pill d-flex align-items-center gap-2 px-3 fw-semibold"
+                    [disabled]="product.stock <= 0">
+              <i class="bi" [class.bi-cart-plus]="product.stock > 0" [class.bi-slash-circle]="product.stock <= 0"></i>
+              {{ product.stock > 0 ? 'Add' : 'Sold' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

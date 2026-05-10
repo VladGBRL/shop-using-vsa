@@ -1,0 +1,99 @@
+<div class="container py-5">
+  <header class="mb-5">
+    <h1 class="fw-bold"><i class="bi bi-shield-lock me-2 text-info"></i> Secure <span class="text-info">Checkout</span></h1>
+    <p class="text-secondary">Please provide your shipping details to complete the order.</p>
+  </header>
+
+  <div class="row g-4">
+    
+    <div class="col-lg-7">
+      <div *ngIf="successMessage" class="alert alert-success border-0 shadow-sm p-4 rounded-4 mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-check-circle-fill fs-1"></i>
+            <div>
+                <h5 class="fw-bold mb-1">Order Placed!</h5>
+                <p class="mb-0">{{ successMessage }}</p>
+                <p class="small opacity-75 mt-2">Redirecting to products...</p>
+            </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger border-0 shadow-sm p-3 rounded-4 mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!successMessage" class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+          <div class="mb-4">
+            <label for="shippingAddress" class="form-label fw-bold">Shipping Address</label>
+            <textarea 
+              id="shippingAddress" 
+              formControlName="shippingAddress" 
+              class="form-control" 
+              rows="5" 
+              placeholder="House no, Street name, City, Zip Code..."
+              [class.is-invalid]="checkoutForm.get('shippingAddress')?.invalid && checkoutForm.get('shippingAddress')?.touched"
+            ></textarea>
+            <div class="invalid-feedback">
+              <span *ngIf="checkoutForm.get('shippingAddress')?.errors?.['required']">Shipping address is required to deliver your quest.</span>
+              <span *ngIf="checkoutForm.get('shippingAddress')?.errors?.['minlength']">Address is too short. Please provide a full address (min 5 characters).</span>
+            </div>
+            <div class="form-text text-secondary opacity-50 small mt-1">
+              Include city, street, and house number.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold py-3 mt-2 shadow-sm d-flex align-items-center justify-content-center gap-2" 
+                  [disabled]="isSubmitting || checkoutForm.invalid || cartTotal === 0">
+            <span *ngIf="!isSubmitting">Confirm and Pay ${{ cartTotal.toFixed(2) }}</span>
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm"></span>
+          </button>
+        </form>
+      </div>
+      
+      <div class="mt-4 d-flex align-items-center gap-4 text-secondary small opacity-50 justify-content-center">
+          <div class="d-flex align-items-center gap-1"><i class="bi bi-lock"></i> SSL Encrypted</div>
+          <div class="d-flex align-items-center gap-1"><i class="bi bi-credit-card"></i> Secure Payment</div>
+          <div class="d-flex align-items-center gap-1"><i class="bi bi-truck"></i> Fast Delivery</div>
+      </div>
+    </div>
+
+    
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4 p-4 overflow-hidden">
+        <h5 class="fw-bold mb-4">Review Your Items</h5>
+        
+        <div class="checkout-items mb-4">
+          <div *ngFor="let item of (cartItems$ | async)" class="d-flex justify-content-between align-items-center py-2 border-bottom border-secondary border-opacity-10">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-secondary bg-opacity-25 text-info rounded-pill">{{ item.quantity }}x</span>
+                <span class="text-white small">{{ item.productName }}</span>
+            </div>
+            <span class="fw-semibold text-white small">${{ (item.price * item.quantity).toFixed(2) }}</span>
+          </div>
+          
+          <div *ngIf="(cartItems$ | async)?.length === 0" class="text-center py-4">
+            <i class="bi bi-cart-x text-secondary opacity-25 display-4 d-block mb-2"></i>
+            <p class="text-secondary small">Your cart is empty.</p>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2 small text-secondary">
+          <span>Items Subtotal</span>
+          <span>${{ cartTotal.toFixed(2) }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2 small text-secondary">
+          <span>Shipping Fee</span>
+          <span class="text-success fw-bold">FREE</span>
+        </div>
+        
+        <hr class="border-secondary border-opacity-25 my-3">
+        
+        <div class="d-flex justify-content-between">
+            <span class="h5 fw-bold text-white mb-0">Order Total</span>
+            <span class="h4 fw-bold text-info mb-0">${{ cartTotal.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

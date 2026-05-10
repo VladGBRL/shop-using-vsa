@@ -1,59 +1,69 @@
-# QuestApp
+# QuestApp - Full-Stack E-Commerce (Vertical Slice Architecture)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Acesta este un proiect Full-Stack construit folosind **ASP.NET Core** pentru backend și **Angular** pentru frontend, respectând arhitectura **Vertical Slice**.
 
-## Development server
+## 📋 Cerințe Prealabile
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [Node.js & npm](https://nodejs.org/)
+- [SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🛠️ Instalare și Pornire
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 1. Restaurarea Bazei de Date
+Există două modalități de a pregăti baza de date:
 
-## Code scaffolding
+#### Varianta A: Restaurare din fișier .bak (Recomandat)
+1. Deschide **SSMS** și conectează-te la instanța locală.
+2. Click dreapta pe **Databases** -> **Restore Database...**.
+3. Selectează **Device** și alege fișierul `QuestDb.bak` din folderul `/database` al proiectului.
+4. Apasă **OK** pentru a restaura baza de date `QuestDb` cu toate produsele pre-populate.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+#### Varianta B: Rularea scriptului SQL
+Dacă preferi scriptul, rulează conținutul fișierului `database/QuestDb.sql` într-o fereastră nouă de query în SSMS.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 2. Pornirea Backend-ului (.NET)
+1. Deschide un terminal în folderul rădăcină.
+2. Navighează către proiectul backend:
+   ```bash
+   cd backend/QuestApp.Backend
+   ```
+3. Instalează dependințele și pornește serverul:
+   ```bash
+   dotnet restore
+   dotnet run
+   ```
+Serverul va rula la adresa `http://localhost:5000`.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+### 3. Pornirea Frontend-ului (Angular)
+1. Deschide un **alt terminal** în folderul rădăcină.
+2. Navighează către folderul frontend:
+   ```bash
+   cd frontend
+   ```
+3. Instalează dependințele (prima dată):
+   ```bash
+   npm install
+   ```
+4. Pornește aplicația:
+   ```bash
+   npm start
+   ```
+Aplicația va fi disponibilă în browser la `http://localhost:4200`.
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 🧪 Testare
+Proiectul include teste automate:
+- **Backend**: `cd backend/QuestApp.Tests && dotnet test`
+- **Frontend**: `cd frontend && npm test`
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🏗️ Arhitectură
+- **Vertical Slice Architecture**: Fiecare funcționalitate (Auth, Cart, Checkout) este izolată.
+- **ADO.NET**: Nu s-a folosit ORM (EF Core), respectând cerința de acces direct la date.
+- **Signals**: Starea coșului de cumpărături este gestionată reactiv prin Angular Signals.
